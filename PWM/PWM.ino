@@ -35,17 +35,19 @@ void loop() {
   unsigned long contador_inicial = micros();
   
   int sensorValue = analogRead(A0);
-  Serial.println(sensorValue);
+  // Serial.println(sensorValue);
 
-  int angulo = (sensorValue * 300.0) / 1023.0;  
+  // int angulo = (sensorValue * 300.0) / 1023.0;  
+
+  int angulo = map(sensorValue, 0, 1023, 0, 180);
+
   angulo = angulo % 180;
 
-  Serial.println(angulo);
+  // Serial.println(angulo);
   myservo.write(angulo); 
 
   unsigned long tiempo_de_Tareas = (micros() - contador_inicial);
-  delay((100000 - tiempo_de_Tareas) / 1000);
+  delay((1000000 - tiempo_de_Tareas) / 1000);
   delayMicroseconds(tiempo_de_Tareas % 1000);
-  Serial.print("El tiempo de ejecucion es: ");
   Serial.println(micros() - contador_inicial);
 }
