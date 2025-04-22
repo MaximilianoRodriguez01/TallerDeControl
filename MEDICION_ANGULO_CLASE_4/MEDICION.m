@@ -2,16 +2,52 @@
 y_n_mas_2 = out.d1(3:(end));
 y_n_mas_1 = out.d1(2:(end-1));
 y_n = out.d1(1:end-2);
-u_n = out.d2(1:(end-2));
+x_n_mas_1 = out.d2(2:(end-1));
+x_n = out.d2(1:(end -2));
 
-X = [y_n_mas_1, y_n, u_n];
+X = [y_n_mas_1, y_n, x_n_mas_1, x_n];
 
 alpha = inv(X.' * X) * (X' * y_n_mas_2);
 
-% alpha = [1.3920; -0.4710; -0.0296]
+% alpha = [1.3920; -0.4710; 0.0058; -0.0354]
+% corresponden a y_n+1, y_n, x_n+1, x_n
+
+% y_n+2 = y_n+1 * 1.3920 - y_n * 0.4710 + x_n+1 * 0.0058 - x_n * 0.0354
+
+% y_n * 0.4710 = -y_n+2 + y_n+1 * 1.3920 + x_n+1 * 0.0058 - x_n * 0.0354
+
+% y_n = -2.123 * y_n+2 + y_n+1 * 2.9554 + x_n+1 * 0.0123 - x_n * 0.0751
+
+%% Z
+
+% Y(z) = z^-2 * Y(z) * (-2.123) + z^-1 * Y(z) * 2.9954 + X(Z) * z^-1 *
+% 0.0123 - X(Z) * 0.0751
+
+% Y(Z) * (z^-2 * 2.123 - z^-1 * 2.9954) = X(z) * (-0.0751 + z^-1 * 0.0123)
+
+% % H(Z) = Y(Z) / X(Z) = (-0.0751 + z^-1 * 0.0123) / (z^-2 * 2.123 - z^-1 * 2.9954)
+% 
+% 
+% z = tf('z', 0.020);
+% H_discreto = (-0.0751 + z^-1 * 0.0123) / (z^(-2) * 2.123 - z^(-1) * 2.9954);
+
+
+Ts = 0.020; % tiempo de muestreo
+
+num = [-0.0751, 0.0123];        % coeficientes del numerador (z^0, z^-1)
+den = [0, -2.9954, 2.123];      % coeficientes del denominador (z^0, z^-1, z^-2)
+
+H_discreto = tf(num, den, Ts);
+
+H_continuo = d2c(H_discreto, "tustin");
+
+H_continuo = (H_continuo);
 
 figure();
-plot(u_n);
+% step(H_continuo);
+plot(y_n);
+grid on
+
 
 
 
