@@ -130,13 +130,23 @@ void loop() {
   delay(1000);
 }
 
-void matlab_send(float dato1, float dato2, float dato3){
-  Serial.write("abcd");
-  byte * b = (byte *) &dato1;
-  Serial.write(b,4);
-  b = (byte *) &dato2;
-  Serial.write(b,4);
-  b = (byte *) &dato3;
-  Serial.write(b,4);
-  //etc con mas datos tipo float. Tambien podría pasarse como parámetro a esta funcion un array de floats.
+// void matlab_send(float dato1, float dato2, float dato3){
+//   Serial.write("abcd");
+//   byte * b = (byte *) &dato1;
+//   Serial.write(b,4);
+//   b = (byte *) &dato2;
+//   Serial.write(b,4);
+//   b = (byte *) &dato3;
+//   Serial.write(b,4);
+//   //etc con mas datos tipo float. Tambien podría pasarse como parámetro a esta funcion un array de floats.
+// }
+
+
+void matlab_send(float* datos, size_t cantidad) {
+  Serial.write("abcd");  // Cabecera fija para identificar el inicio del paquete
+
+  for (size_t i = 0; i < cantidad; i++) {
+    byte* b = (byte*) &datos[i];
+    Serial.write(b, 4);  // Cada float ocupa 4 bytes
+  }
 }

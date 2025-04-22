@@ -9,7 +9,6 @@ void setup() {
 
 void loop() {
 
-  // EJERCICIO 1:
   // delay(1000);
   // myservo.writeMicroseconds(1000);
   // delay(1000);
@@ -19,35 +18,40 @@ void loop() {
   // delay(1000);
 
   // EJERCICIO 2:
-  // delay(1000);
-  // int angulo_default = 90;
-  // myservo.write(-90 + angulo_default);
+  delay(1000);
+  int angulo_default = 90;
+  // myservo.write(-90 + angulo_default);  
 
-  //   delay(1000);
-  // myservo.write(0 + angulo_default);
+  int angulos[] = {-30, 0, 30};
 
-  //   delay(1000);
+  delay(1000);
+  myservo.write(angulos[0] + angulo_default);
 
-  // myservo.write(90 + angulo_default);
+  delay(1000);
+  myservo.write(angulos[1] + angulo_default);
+
+  delay(1000);
+
+  myservo.write(angulos[2] + angulo_default);
 
   // EJERCICIO 3
 
-  unsigned long contador_inicial = micros();
+  // unsigned long contador_inicial = micros();
   
-  int sensorValue = analogRead(A0);
-  // Serial.println(sensorValue);
+  // int sensorValue = analogRead(A0);
+  // // Serial.println(sensorValue);
 
-  // int angulo = (sensorValue * 300.0) / 1023.0;  
+  // // int angulo = (sensorValue * 300.0) / 1023.0;  
 
-  int angulo = map(sensorValue, 0, 1023, 0, 180);
+  // int angulo = map(sensorValue, 0, 1023, 0, 180);
 
-  angulo = angulo % 180;
+  // angulo = angulo % 180;
 
-  // Serial.println(angulo);
-  myservo.write(angulo); 
+  // // Serial.println(angulo);
+  // myservo.write(angulo); 
 
-  unsigned long tiempo_de_Tareas = (micros() - contador_inicial);
-  delay((1000000 - tiempo_de_Tareas) / 1000);
-  delayMicroseconds(tiempo_de_Tareas % 1000);
-  Serial.println(micros() - contador_inicial);
+  // unsigned long tiempo_de_Tareas = (micros() - contador_inicial);
+  // delay((1000000 - tiempo_de_Tareas) / 1000);
+  // delayMicroseconds(tiempo_de_Tareas % 1000);
+  // Serial.println(micros() - contador_inicial);
 }
