@@ -7,8 +7,11 @@ Adafruit_MPU6050 mpu;
 
 void setup(void) {
   Serial.begin(115200);
+  Wire.setWireTimeout(20000, true);
   while (!Serial)
     delay(10); // will pause Zero, Leonardo, etc until serial console opens
+
+
 
   Serial.println("Adafruit MPU6050 test!");
 

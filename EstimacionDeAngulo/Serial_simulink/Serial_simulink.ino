@@ -10,6 +10,7 @@ float delta_T = 0.020;
 
 void setup(void) {
   Serial.begin(115200);
+  // Wire.setWireTimeout(20000, true);
   while (!Serial)
     delay(10); // will pause Zero, Leonardo, etc until serial console opens
 
@@ -110,8 +111,13 @@ void loop() {
 
   angulo_g_sesgado = angulo_g_sesgado + (180 / PI)*(gyro_x * delta_T);
 
-  angulo_a = (180 / PI) * atan2(acel_y, acel_z);
-
+  if (abs(acel_z) < 0.005 && abs(acel_y) < 0.005) {
+    // Datos poco confiables, conservar valor anterior
+    angulo_a = angulo_a; // opcionalmente no actualices
+  } else {
+    angulo_a =  ((180 / PI) * atan2(acel_y, acel_z);
+  }
+  
   float alpha = 0.1;
 
   angulo_total = alpha*angulo_a + (1-alpha)*angulo_g;
