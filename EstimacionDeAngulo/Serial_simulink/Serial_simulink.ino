@@ -10,7 +10,7 @@ float delta_T = 0.020;
 
 void setup(void) {
   Serial.begin(115200);
-  // Wire.setWireTimeout(20000, true);
+  Wire.setWireTimeout(20000, true);
   while (!Serial)
     delay(10); // will pause Zero, Leonardo, etc until serial console opens
 
@@ -94,7 +94,7 @@ void loop() {
   static float angulo_g_sesgado = 0;
   static float angulo_a = 0;
   static float angulo_total = 0;
-  unsigned long contador_inicial = micros();
+  unsigned long t0 = micros();
   /* Get new sensor events with the readings */
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
@@ -115,7 +115,7 @@ void loop() {
     // Datos poco confiables, conservar valor anterior
     angulo_a = angulo_a; // opcionalmente no actualices
   } else {
-    angulo_a =  ((180 / PI) * atan2(acel_y, acel_z);
+    angulo_a =  ((180 / PI) * atan2(acel_y, acel_z));
   }
   
   float alpha = 0.1;
@@ -123,13 +123,16 @@ void loop() {
   angulo_total = alpha*angulo_a + (1-alpha)*angulo_g;
 
 
-  matlab_send(angulo_g_sesgado, angulo_a, angulo_total);
+  Serial.print(angulo_g_sesgado); Serial.print(",");
+  Serial.print(angulo_a); Serial.print(",");
+  Serial.println(angulo_total);
 
-  unsigned long tiempo_de_Tareas = (micros() - contador_inicial);
-  delay((20000 - tiempo_de_Tareas) / 1000);
-  delayMicroseconds(tiempo_de_Tareas % 1000);
-  // Serial.print("El tiempo de ejecucion es: ");
-  // Serial.println(micros() - contador_inicial);
+  unsigned long dt = micros() - t0;
+  if (dt < 20000) {
+    unsigned long rem = 20000 - dt;       // µs
+    delay(rem / 1000);                    // ms
+    delayMicroseconds(rem % 1000);        // µs
+  }
 }
 
 void matlab_send(float dato1, float dato2, float dato3){
@@ -145,19 +148,4 @@ void matlab_send(float dato1, float dato2, float dato3){
 
 
 
-// void matlab_send(float dato1, float dato2, float dato3, float dato4, float dato5, float dato6){
-//   Serial.write("abcd");
-//   byte * b = (byte *) &dato1;
-//   Serial.write(b,4);
-//   b = (byte *) &dato2;
-//   Serial.write(b,4);
-//   b = (byte *) &dato3;
-//   Serial.write(b,4);
-//   b = (byte *) &dato4;
-//   Serial.write(b,4);
-//   b = (byte *) &dato5;
-//   Serial.write(b,4);
-//   b = (byte *) &dato6;
-//   Serial.write(b,4);
-//   //etc con mas datos tipo float. Tambien podría pasarse como parámetro a esta funcion un array de floats.
-// }
+
