@@ -1,8 +1,8 @@
 #include <NewPing.h>
 
-#define TRIGGER_PIN  6  // Pin conectado al trigger
-#define ECHO_PIN     7  // Pin conectado al echo
-#define MAX_DISTANCE 100 // Maxima distancia de medicion para probar en el aula
+#define TRIGGER_PIN  5  // Pin conectado al trigger
+#define ECHO_PIN     6  // Pin conectado al echo
+#define MAX_DISTANCE 45 // Maxima distancia de medicion para probar en el aula
 
 NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 

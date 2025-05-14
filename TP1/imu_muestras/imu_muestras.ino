@@ -23,7 +23,7 @@ void setup(void) {
 
 void loop() {
   static float ang_tot = 0.0;
-  const float alpha = 0.1;  // Peso del acelerómetro
+  const float alpha = 0.05;  // Peso del acelerómetro
 
   unsigned long t0 = micros();  // <- ahora antes de leer el sensor
 

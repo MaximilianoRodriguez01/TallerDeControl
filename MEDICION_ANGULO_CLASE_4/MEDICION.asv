@@ -50,7 +50,9 @@ figure();
 plot(x_n);
 title("X_N");
 
-
+figure();
+plot(y_n);
+title("Y_N");
 
 
 figure();
@@ -62,16 +64,10 @@ bode(H_continuo, optionss);
 grid on
 
 
-linsp = linspace(0, (length(x_n)-1)*Ts, length(x_n)).';
+
 
 figure();
-[y, tout] = lsim(H_continuo, x_n, linsp);
-plot(tout, y);
-title("salida simulada");
-hold on
-plot(tout, y_n);
-title("Y_N");
-hold off
+lsim(H_continuo, x_n, linspace() )
 
 C = 1/s;
 
